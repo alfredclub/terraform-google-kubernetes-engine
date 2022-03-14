@@ -25,6 +25,7 @@ REVISION_NAME=$1; shift
 CHANNEL=$1; shift
 ENABLE_CNI=$1; shift
 ENABLE_VPC_SC=$1; shift
+IMPERSONATE_SERVICE_AACOUNT=$1; shift
 
 # Wait for the CRD to get created before creating the CPR. Not possible to use `kubectl --wait ...` here since
 # the CRD won't exist at the time of checking (https://stackoverflow.com/questions/57115602/how-to-kubectl-wait-for-crd-creation)
@@ -38,6 +39,11 @@ for _i in {1..18}; do
     sleep 10
   fi
 done
+
+if [[ -n "${IMPERSONATE_SERVICE_ACCOUNT}" ]]; then
+  echo "Impersonating service account ${IMPERSONATE_SERVICE_ACCOUNT}"
+  gcloud config set auth/impersonate_service_account "${IMPERSONATE_SERVICE_ACCOUNT}"
+fi
 
 kubectl wait --for condition=established --timeout=60s crd/"${CPR_RESOURCE}"
 
@@ -57,3 +63,8 @@ spec:
 EOF
 
 kubectl wait -n istio-system --for=condition=Reconciled controlplanerevision/"${REVISION_NAME}" --timeout 10m
+
+if [[ -n "${IMPERSONATE_SERVICE_ACCOUNT}" ]]; then
+  echo "Unsetting impersonated service account ${IMPERSONATE_SERVICE_ACCOUNT}"
+  gcloud config unset auth/impersonate_service_account
+fi
