@@ -25,7 +25,7 @@ REVISION_NAME=$1; shift
 CHANNEL=$1; shift
 ENABLE_CNI=$1; shift
 ENABLE_VPC_SC=$1; shift
-IMPERSONATE_SERVICE_AACOUNT=$1; shift
+IMPERSONATE_SERVICE_ACCOUNT=$1; shift
 
 # Wait for the CRD to get created before creating the CPR. Not possible to use `kubectl --wait ...` here since
 # the CRD won't exist at the time of checking (https://stackoverflow.com/questions/57115602/how-to-kubectl-wait-for-crd-creation)
