@@ -174,4 +174,12 @@ resource "google_container_cluster" "primary" {
       topic   = var.notification_config_topic
     }
   }
+
+  node_config {
+    service_account = google_service_account.cluster_service_account.email
+    # Using this oauth scope, access is only limited via the service account
+    oauth_scopes    = [
+      "https://www.googleapis.com/auth/cloud-platform"
+    ]
+  }
 }
