@@ -207,4 +207,8 @@ resource "google_container_cluster" "primary" {
       topic   = var.notification_config_topic
     }
   }
+  config_connector_config {
+    enabled = var.config_connector
+  }
 }
+
