@@ -96,6 +96,9 @@ resource "google_container_cluster" "primary" {
       disabled = !var.horizontal_pod_autoscaling
     }
 
+    config_connector_config {
+      enabled = var.config_connector
+    }
   }
 
   datapath_provider = var.datapath_provider
@@ -206,9 +209,6 @@ resource "google_container_cluster" "primary" {
       enabled = var.notification_config_topic != "" ? true : false
       topic   = var.notification_config_topic
     }
-  }
-  config_connector_config {
-    enabled = var.config_connector
   }
 }
 
