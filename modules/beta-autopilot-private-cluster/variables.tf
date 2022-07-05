@@ -114,12 +114,6 @@ variable "maintenance_exclusions" {
   default     = []
 }
 
-variable "config_connector" {
-  type        = bool
-  description = "(Beta) Whether ConfigConnector is enabled for this cluster."
-  default     = false
-}
-
 variable "maintenance_end_time" {
   type        = string
   description = "Time window specified for recurring maintenance operations in RFC3339 format"
